@@ -15,15 +15,6 @@ onMounted(() => {
 <template>
   <MainLayout />
 </template>
-
-<style scoped></style>
-
-// ============================================================
-//  Configuration & Constants
-// ============================================================
-const STEPS = 32;
-const SCALE = ['C2', 'D2', 'F2', 'G2', 'A#2', 'C3', 'D3', 'F3', 'G3', 'A#3', 'C4', 'D4', 'F4', 'G4', 'A#4'];
-const PALETTE = [
   'bg-[#9b6a6a]', // rosewood
   'bg-[#6a82a0]', // steel blue
   'bg-[#9a9166]', // muted gold
