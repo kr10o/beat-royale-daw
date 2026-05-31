@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>BEAT Battle ROYALE</title>
+
+    <!-- App Input Styles -->
+    <style>
+      input[type=range] { -webkit-appearance: none; background: transparent; }
+      input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; background: currentColor; border-radius: 50%; cursor: pointer; }
+      input[type=range]::-moz-range-thumb { width: 10px; height: 10px; background: currentColor; border-radius: 50%; cursor: pointer; border: none; }
+      ::-webkit-scrollbar { width: 8px; height: 8px; }
+      ::-webkit-scrollbar-track { background: #0a0a0a; }
+      ::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+      ::-webkit-scrollbar-thumb:hover { background: #404040; }
+      .wave-canvas { cursor: ew-resize; }
+    </style>
+  </head>
+  <body class="bg-neutral-950 text-neutral-300 overflow-hidden selection:bg-blue-500/30 font-sans">
+    <!-- Vite mounts your app right here -->
+    <div id="app"></div>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

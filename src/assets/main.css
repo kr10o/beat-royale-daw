@@ -1,0 +1,17 @@
+/* Import the entire Tailwind framework */
+@import "tailwindcss";
+
+/* Define your custom desaturated palette for the DAW */
+@theme {
+  --color-blue-50: #eef2f6;
+  --color-blue-100: #dbe3ec;
+  --color-blue-200: #bcccdb;
+  --color-blue-300: #94abc4;
+  --color-blue-400: #6f8aaa;
+  --color-blue-500: #5a7493;
+  --color-blue-600: #4b5f78;
+  --color-blue-700: #3f4e60;
+  --color-blue-800: #333e4d;
+  --color-blue-900: #28303b;
+  --color-blue-950: #191e25;
+}
