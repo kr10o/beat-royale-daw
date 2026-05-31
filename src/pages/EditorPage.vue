@@ -1,79 +1,67 @@
 <template>
-  <div class="px-4 py-8">
-    <div class="rounded-lg border border-purple-500/20 bg-black/30 p-6 backdrop-blur">
-      <!-- Header -->
-      <div class="mb-6 flex items-center justify-between">
-        <div>
-          <h1 class="text-2xl font-bold text-white">Music Editor</h1>
-          <p class="text-sm text-gray-400">Create your next beat</p>
-        </div>
+  <div class="flex h-full flex-col bg-black text-gray-100">
+    <!-- Main Toolbar -->
+    <Toolbar :is-recording="false">
+      <template #transport>
+        <TransportControls />
+      </template>
+    </Toolbar>
+
+    <main class="flex-1 overflow-hidden p-4 space-y-4">
+      <!-- Top Section: Timeline/Sequencer -->
+      <section class="flex-1 overflow-y-auto">
+        <Timeline />
+      </section>
+
+      <!-- Bottom Section: Mixer -->
+      <section class="h-80 border-t border-white/5 pt-4">
+        <Mixer :tracks="tracks" />
+      </section>
+    </main>
+
+    <!-- Project Init Overlay -->
+    <div 
+      v-if="!audioStore.isInitialized" 
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+    >
+      <div class="text-center">
+        <h2 class="mb-6 text-3xl font-bold text-white">Ready to create?</h2>
         <button
           @click="initAudio"
-          :disabled="audioStore.isInitialized"
-          class="flex items-center gap-2 rounded-lg bg-purple-500 px-4 py-2 font-semibold text-white transition disabled:opacity-50 hover:bg-purple-600"
+          class="rounded-full bg-purple-500 px-12 py-4 text-xl font-bold text-white shadow-lg shadow-purple-500/20 transition hover:scale-105 hover:bg-purple-600"
         >
-          <span v-if="!audioStore.isInitialized">🔊 Initialize Audio</span>
-          <span v-else>✓ Audio Ready</span>
+          Initialize Audio Engine
         </button>
-      </div>
-
-      <!-- Playback Controls -->
-      <div class="mb-6 flex gap-2 border-b border-gray-700 pb-6">
-        <button
-          @click="audioStore.togglePlayback"
-          :disabled="!audioStore.isInitialized"
-          class="flex items-center gap-2 rounded-lg bg-pink-500 px-4 py-2 font-semibold text-white transition disabled:opacity-50 hover:bg-pink-600"
-        >
-          <span v-if="!audioStore.isPlaying">▶ Play</span>
-          <span v-else>⏸ Stop</span>
-        </button>
-        <button
-          @click="audioStore.triggerTestNote"
-          :disabled="!audioStore.isInitialized"
-          class="flex items-center gap-2 rounded-lg border border-purple-500/50 px-4 py-2 font-semibold text-purple-300 transition disabled:opacity-50 hover:bg-purple-500/10"
-        >
-          🎵 Test Note
-        </button>
-
-        <!-- BPM Display -->
-        <div class="ml-auto flex items-center gap-3 border-l border-gray-700 pl-4">
-          <span class="text-sm text-gray-400">BPM:</span>
-          <input
-            v-model.number="audioStore.bpm"
-            type="number"
-            min="40"
-            max="300"
-            class="w-16 rounded bg-gray-800 px-2 py-1 text-center text-white outline-none"
-          />
-        </div>
-      </div>
-
-      <!-- Coming Soon Section -->
-      <div class="rounded-lg border border-amber-500/20 bg-amber-500/5 p-6 text-center">
-        <div class="mb-3 text-4xl">🎛️</div>
-        <h2 class="mb-2 text-xl font-bold text-amber-300">Sequencer Coming Soon</h2>
-        <p class="mb-4 text-gray-400">
-          The visual 32-step sequencer with multiple tracks will be fully integrated here. For now, use the test note to
-          verify audio is working.
-        </p>
-        <div class="flex justify-center gap-4 text-xs text-gray-500">
-          <span>✓ Audio playback</span>
-          <span>✓ BPM control</span>
-          <span>✓ Tone.js integration</span>
-        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useAudioStore } from '@/stores/audio'
+import Toolbar from '@/components/Toolbar.vue'
+import TransportControls from '@/components/TransportControls.vue'
+import Timeline from '@/components/Timeline.vue'
+import Mixer from '@/components/Mixer.vue'
+import type { Track } from '@/types'
 
 const audioStore = useAudioStore()
+
+const tracks = ref<Track[]>([
+  { id: '1', name: 'Kick', type: 'sampler', volume: 0.8, muted: false, soloed: false, pan: 0 },
+  { id: '2', name: 'Snare', type: 'sampler', volume: 0.7, muted: false, soloed: false, pan: 0 },
+  { id: '3', name: 'Synth Bass', type: 'synth', volume: 0.6, muted: false, soloed: false, pan: 0 },
+])
 
 async function initAudio() {
   await audioStore.initAudio()
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Ensure the editor takes full height minus potential layout headers */
+main {
+  height: calc(100vh - 48px); /* 48px is Toolbar height */
+}
+</style>
