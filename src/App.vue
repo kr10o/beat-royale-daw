@@ -1,6 +1,22 @@
-<script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
-import * as Tone from 'tone';
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import MainLayout from '@/layouts/MainLayout.vue'
+import { useAuthStore } from '@/stores/auth'
+
+const authStore = useAuthStore()
+
+// Initialize auth from localStorage on app mount
+onMounted(() => {
+  authStore.initializeAuth()
+})
+
+</script>
+
+<template>
+  <MainLayout />
+</template>
+
+<style scoped></style>
 
 // ============================================================
 //  Configuration & Constants
@@ -700,26 +716,9 @@ const getNoteIndex = (note) => Math.max(0, SCALE.indexOf(note));
 </script>
 
 <template>
-  <div v-if="!isAudioReady" class="h-screen w-screen flex flex-col items-center justify-center space-y-6 relative bg-neutral-950 text-neutral-300">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-400 animate-pulse w-10 h-10">
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
-    </svg>
-    <h1 class="text-xl font-bold tracking-[0.3em] text-neutral-200">BEAT ROYALE <span class="text-blue-400">DAW</span></h1>
-    <p class="text-neutral-500 max-w-sm text-center text-[10px]">
-      Fetching exact sample mapping from JSON backend.
-    </p>
-    <button
-      @click="initializeAudio"
-      :disabled="isLoading"
-      :class="[
-        'px-5 py-2 rounded text-xs font-semibold transition-all shadow-[0_0_15px_rgba(90,116,147,0.2)]',
-        isLoading ? 'bg-neutral-900 text-neutral-600 cursor-not-allowed' : 'bg-blue-600/90 hover:bg-blue-500 text-white'
-      ]"
-    >
-      {{ isLoading ? 'Downloading Assets...' : 'Launch Engine' }}
-    </button>
-    <p v-if="isLoading" class="text-[9px] font-mono text-neutral-600 h-3">{{ loadStatus }}</p>
-  </div>
+<template>
+  <MainLayout />
+</template>
 
   <div v-else class="h-screen w-screen flex flex-col relative bg-[#0a0a0a] text-neutral-300">
     <header class="h-10 bg-[#0d0d0d] border-b border-neutral-800 flex items-center px-4 justify-between shrink-0">
